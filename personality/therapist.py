@@ -5,7 +5,7 @@ from langchain_tavily import TavilySearch
 from langgraph.prebuilt import create_react_agent, ToolNode
 from langchain_core.messages import SystemMessage
 from dotenv import load_dotenv
-
+import random
 # Load keys from .env file (RECOMMENDED)
 load_dotenv()
 print("Tavily key loaded:", bool(os.getenv("TAVILY_API_KEY")))
@@ -27,6 +27,19 @@ tools = [search]
 model_with_tools = llm.bind_tools(tools)
 agent_executor = create_react_agent(llm, tools, checkpointer=memory)
 tool_node = ToolNode(tools)
+
+
+#function to initialize new chat with new id on hitting button from streamlit new chat
+import uuid
+import uuid
+
+def new_session(value):
+    if value == "New Chat":
+        session_id = str(uuid.uuid4())
+        print(f"🔄 New session: {session_id}")
+        return {"configuration": {"session_id": session_id}}
+    return None
+
 
 # Therapist persona prompt
 therapist_prompt = """
